@@ -1,2 +1,2 @@
-# Darling
-Test project to find window and images
+# Flat form
+Base flat form design for winforms. Required >= netcore 3.0
