@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32804.467
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alca259.Forms", "Alca259.Forms\Alca259.Forms.csproj", "{9C94FB95-E85D-40BA-8873-45BA3BD10D36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alca259.Test", "Alca259.Test\Alca259.Test.csproj", "{E86E7335-4188-48C4-B7C4-4196B813D6A7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C94FB95-E85D-40BA-8873-45BA3BD10D36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C94FB95-E85D-40BA-8873-45BA3BD10D36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C94FB95-E85D-40BA-8873-45BA3BD10D36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C94FB95-E85D-40BA-8873-45BA3BD10D36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E86E7335-4188-48C4-B7C4-4196B813D6A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E86E7335-4188-48C4-B7C4-4196B813D6A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E86E7335-4188-48C4-B7C4-4196B813D6A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E86E7335-4188-48C4-B7C4-4196B813D6A7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CCE853E0-4743-4637-B576-CAC440158721}
+	EndGlobalSection
+EndGlobal
