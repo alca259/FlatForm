@@ -16,7 +16,7 @@ namespace Alca259.Test
         public Form1()
         {
             InitializeComponent();
-            InitializeEventHandlers();
+            PostInitialize();
         }
 
     }

@@ -120,18 +120,11 @@ namespace Alca259.Forms
         public FlatForm()
         {
             InitializeComponent();
-            Padding = new Padding(BorderSize);
-            BackColor = BorderColor;
 
             Resize += FlatForm_Resize;
-
-            if ((IsMenuOpen && !StartMenuOpen) || (!IsMenuOpen && StartMenuOpen))
-            {
-                CollapseMenu();
-            }
         }
 
-        protected virtual void InitializeEventHandlers()
+        protected virtual void PostInitialize()
         {
             if (DragControl != null) DragControl.MouseDown += DragControl_MouseDown;
             if (MinimizeButton != null) MinimizeButton.Click += MinimizeButton_Click;
@@ -140,6 +133,13 @@ namespace Alca259.Forms
             if (MenuPanel != null && MenuToggleButton != null) MenuToggleButton.Click += MenuToggleButton_Click;
 
             _initialBorderSize = _borderSize;
+            Padding = new Padding(BorderSize);
+            BackColor = BorderColor;
+
+            if ((IsMenuOpen && !StartMenuOpen) || (!IsMenuOpen && StartMenuOpen))
+            {
+                CollapseMenu();
+            }
         }
         #endregion
 
