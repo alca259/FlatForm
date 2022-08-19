@@ -41,7 +41,7 @@
             this.btnMini.FlatAppearance.BorderSize = 0;
             this.btnMini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMini.ForeColor = System.Drawing.Color.Black;
-            this.btnMini.Location = new System.Drawing.Point(768, 4);
+            this.btnMini.Location = new System.Drawing.Point(799, 5);
             this.btnMini.Name = "btnMini";
             this.btnMini.Size = new System.Drawing.Size(32, 32);
             this.btnMini.TabIndex = 0;
@@ -56,7 +56,7 @@
             this.btnMaxi.FlatAppearance.BorderSize = 0;
             this.btnMaxi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMaxi.ForeColor = System.Drawing.Color.Black;
-            this.btnMaxi.Location = new System.Drawing.Point(806, 4);
+            this.btnMaxi.Location = new System.Drawing.Point(837, 5);
             this.btnMaxi.Name = "btnMaxi";
             this.btnMaxi.Size = new System.Drawing.Size(32, 32);
             this.btnMaxi.TabIndex = 1;
@@ -71,7 +71,7 @@
             this.btnClose.FlatAppearance.BorderSize = 0;
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.ForeColor = System.Drawing.Color.Black;
-            this.btnClose.Location = new System.Drawing.Point(844, 4);
+            this.btnClose.Location = new System.Drawing.Point(875, 5);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(32, 32);
             this.btnClose.TabIndex = 2;
@@ -82,7 +82,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(880, 645);
+            this.BorderSize = 2;
+            this.ClientSize = new System.Drawing.Size(912, 723);
             this.CloseButton = this.btnClose;
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnMaxi);
@@ -90,6 +91,7 @@
             this.MaximizeButton = this.btnMaxi;
             this.MinimizeButton = this.btnMini;
             this.Name = "Form1";
+            this.Padding = new System.Windows.Forms.Padding(2);
             this.Text = "Form1";
             this.ResumeLayout(false);
 

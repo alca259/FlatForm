@@ -13,6 +13,7 @@ namespace Alca259.Forms
         private const string CAT_NAME = "Flat Form";
         private const int DRAG_MESSAGE = 0x112;
         private const int DRAG_MESSAGE_PARAM = 0xf012;
+        private const int RESIZE_MSG = 132;
         private const int WM_NC_CALC_SIZE = 0x0083;
         /// <summary>
         /// Represents the client area of the window
@@ -50,28 +51,13 @@ namespace Alca259.Forms
         /// Lower-right corner of a window border, allows resize diagonally to the right
         /// </summary>
         private const int HTBOTTOMRIGHT = 17;
-        /// <summary>
-        /// Win32, Mouse Input Notification: Determine what part of the window corresponds to a point, allows to resize the form.
-        /// </summary>
-        private const int WM_NCHITTEST = 0x0084;
-        private const int WM_SYSCOMMAND = 0x0112;
-        /// <summary>
-        /// Minimize form (Before)
-        /// </summary>
-        private const int SC_MINIMIZE = 0xF020;
-        /// <summary>
-        /// Restore form (Before)
-        /// </summary>
-        private const int SC_RESTORE = 0xF120;
         private const int RESIZE_AREA_SIZE = 10;
         #endregion
 
         #region Fields
-        /// <summary>
-        /// Keep form size when it is minimized and restored.
-        /// Since the form is resized because it takes into account the size of the title bar and borders.
-        /// </summary>
-        private Size _formSize;
+        private int _borderSize = 1;
+        private int _initialBorderSize = 1;
+        private bool _isMaximized = false;
         #endregion
 
         #region Protected properties
@@ -87,6 +73,12 @@ namespace Alca259.Forms
 
         [Category(CAT_NAME)]
         public Button MaximizeButton { get; set; }
+
+        [Category(CAT_NAME)]
+        public Image MaximizeWindowImage { get; set; }
+
+        [Category(CAT_NAME)]
+        public Image RestoreWindowImage { get; set; }
 
         [Category(CAT_NAME)]
         public Button CloseButton { get; set; }
@@ -107,7 +99,15 @@ namespace Alca259.Forms
         public int MenuExpandedWidth { get; set; } = 230;
         
         [Category(CAT_NAME)]
-        public int BorderSize { get; set; } = 1;
+        public int BorderSize
+        {
+            get => _borderSize;
+            set
+            {
+                _borderSize = value;
+                Padding = new Padding(_borderSize);
+            }
+        }
 
         [Category(CAT_NAME)]
         public Color BorderColor { get; set; } = Color.FromArgb(31, 98, 169);
@@ -139,7 +139,7 @@ namespace Alca259.Forms
             if (CloseButton != null) CloseButton.Click += CloseButton_Click;
             if (MenuPanel != null && MenuToggleButton != null) MenuToggleButton.Click += MenuToggleButton_Click;
 
-            _formSize = ClientSize;
+            _initialBorderSize = _borderSize;
         }
         #endregion
 
@@ -163,17 +163,14 @@ namespace Alca259.Forms
         #region Hide Borders, working area and snap
         protected override void WndProc(ref Message m)
         {
-            ResizeControl(ref m);
-
             if (HideDefaultBorders && m.Msg == WM_NC_CALC_SIZE && m.WParam.ToInt32() == 1)
             {
                 // Hide borders
                 return;
             }
 
-            KeepFormSize(ref m);
-
             base.WndProc(ref m);
+            ResizeControl(ref m);
         }
 
         /// <summary>
@@ -181,117 +178,113 @@ namespace Alca259.Forms
         /// </summary>
         private void ResizeControl(ref Message m)
         {
-            // If the windows m is WM_NCHITTEST
-            if (m.Msg != WM_NCHITTEST)
+            // If the windows m is RESIZE_MSG
+            if (m.Msg != RESIZE_MSG)
             {
                 return;
             }
 
-            base.WndProc(ref m);
-            if (WindowState != FormWindowState.Normal) // Resize the form if it is in normal state
-            {
+            // Resize the form if it is in normal state or the result of the m (mouse pointer) is in the client area of the window
+            if (WindowState != FormWindowState.Normal || (int)m.Result != HTCLIENT)
                 return;
-            }
 
-            if ((int)m.Result != HTCLIENT) // If the result of the m (mouse pointer) is in the client area of the window
-            {
-                return;
-            }
+            // Gets screen point coordinates(X and Y coordinate of the pointer)
+            Point screenPoint = new Point(m.LParam.ToInt32());
 
-            Point screenPoint = new Point(m.LParam.ToInt32()); // Gets screen point coordinates(X and Y coordinate of the pointer)                           
-            Point clientPoint = PointToClient(screenPoint); // Computes the location of the screen point into client coordinates                          
-            if (clientPoint.Y <= RESIZE_AREA_SIZE)// If the pointer is at the top of the form (within the resize area- X coordinate)
+            // Computes the location of the screen point into client coordinates
+            Point client = PointToClient(screenPoint);
+
+            // If the pointer is at the top of the form (within the resize area- X coordinate)
+            if (client.Y <= RESIZE_AREA_SIZE)
             {
-                if (clientPoint.X <= RESIZE_AREA_SIZE) // If the pointer is at the coordinate X=0 or less than the resizing area(X=10) in 
-                    m.Result = (IntPtr)HTTOPLEFT; // Resize diagonally to the left
-                else if (clientPoint.X < (Size.Width - RESIZE_AREA_SIZE))// If the pointer is at the coordinate X=11 or less than the width of the form(X=Form.Width-resizeArea)
-                    m.Result = (IntPtr)HTTOP; // Resize vertically up
-                else // Resize diagonally to the right
-                    m.Result = (IntPtr)HTTOPRIGHT;
-            }
-            else if (clientPoint.Y <= (Size.Height - RESIZE_AREA_SIZE)) // If the pointer is inside the form at the Y coordinate(discounting the resize area size)
-            {
-                if (clientPoint.X <= RESIZE_AREA_SIZE)// Resize horizontally to the left
-                    m.Result = (IntPtr)HTLEFT;
-                else if (clientPoint.X > (Width - RESIZE_AREA_SIZE))// Resize horizontally to the right
-                    m.Result = (IntPtr)HTRIGHT;
+                // If the pointer is at the coordinate X=0 or less than the resizing area(X=10) in
+                if (client.X <= RESIZE_AREA_SIZE)
+                {
+                    // Resize diagonally to the left
+                    m.Result = (IntPtr)HTTOPLEFT;
+                }
+                else
+                {
+                    // If the pointer is at the coordinate X=11 or less than the width of the form(X=Form.Width-resizeArea)
+                    // Resize vertically up
+                    // Resize diagonally to the right
+                    int x = client.X;
+                    int num = Size.Width - RESIZE_AREA_SIZE;
+                    m.Result = x >= num ? (IntPtr)HTTOPRIGHT : (IntPtr)HTTOP;
+                }
             }
             else
             {
-                if (clientPoint.X <= RESIZE_AREA_SIZE)// Resize diagonally to the left
+                // If the pointer is inside the form at the Y coordinate(discounting the resize area size)
+                int y = client.Y;
+                Size size = Size;
+                int num1 = size.Height - RESIZE_AREA_SIZE;
+                if (y <= num1)
+                {
+                    // Resize horizontally to the left
+                    if (client.X <= RESIZE_AREA_SIZE) m.Result = (IntPtr)HTLEFT;
+                    // Resize horizontally to the right
+                    else if (client.X > Width - RESIZE_AREA_SIZE) m.Result = (IntPtr)HTRIGHT;
+                }
+                else if (client.X <= RESIZE_AREA_SIZE)
+                {
+                    // Resize diagonally to the left
                     m.Result = (IntPtr)HTBOTTOMLEFT;
-                else if (clientPoint.X < (Size.Width - RESIZE_AREA_SIZE)) // Resize vertically down
-                    m.Result = (IntPtr)HTBOTTOM;
-                else // Resize diagonally to the right
-                    m.Result = (IntPtr)HTBOTTOMRIGHT;
+                }
+                else
+                {
+                    // Resize vertically down
+                    // Resize diagonally to the right
+                    int x = client.X;
+                    int num2 = size.Width - RESIZE_AREA_SIZE;
+                    m.Result = x >= num2 ? (IntPtr)HTBOTTOMRIGHT : (IntPtr)HTBOTTOM;
+                }
             }
-        }
-
-        /// <summary>
-        /// Keep form size when it is minimized and restored.
-        /// Since the form is resized because it takes into account the size of the title bar and borders.
-        /// </summary>
-        /// <see cref="https://docs.microsoft.com/en-us/windows/win32/menurc/wm-syscommand"/>
-        /// <remarks>
-        /// In WM_SYSCOMMAND messages, the four low - order bits of the wParam parameter 
-        /// are used internally by the system.To obtain the correct result when testing 
-        /// the value of wParam, an application must combine the value 0xFFF0 with the 
-        /// wParam value by using the bitwise AND operator.
-        /// </remarks>
-        /// <param name="m"></param>
-        private void KeepFormSize(ref Message m)
-        {
-            if (m.Msg != WM_SYSCOMMAND)
-            {
-                return;
-            }
-
-            int wParam = (m.WParam.ToInt32() & 0xFFF0);
-            if (wParam == SC_MINIMIZE) // Before
-                _formSize = ClientSize;
-            if (wParam == SC_RESTORE) // Restored form(Before)
-                Size = _formSize;
         }
 
         #region Event Handlers
         private void FlatForm_Resize(object sender, EventArgs e)
         {
-            // Working area
-            AdjustForm();
-        }
+            if (WindowState != FormWindowState.Normal || !_isMaximized) return;
 
-        private void AdjustForm()
-        {
-            switch (WindowState)
-            {
-                case FormWindowState.Normal when Padding.Top != BorderSize:
-                    Padding = new Padding(BorderSize);
-                    break;
-                case FormWindowState.Maximized:
-                    Padding = new Padding(0, 8, 8, 0);
-                    break;
-                default:
-                    break;
-            }
+            _isMaximized = false;
+            BorderSize = _initialBorderSize;
+            SetMaximizeButton();
         }
         #endregion
 
         #endregion
 
         #region Top bar buttons
-        protected void Minimize()
+        protected virtual void Minimize()
         {
             WindowState = FormWindowState.Minimized;
         }
 
-        protected void Maximize()
+        protected virtual void Maximize()
         {
-            WindowState = WindowState == FormWindowState.Normal
-                ? FormWindowState.Maximized
-                : FormWindowState.Normal;
+            if (WindowState == FormWindowState.Normal)
+            {
+                MaximumSize = Screen.FromHandle(Handle).WorkingArea.Size;
+                WindowState = FormWindowState.Maximized;
+                BorderSize = RESIZE_AREA_SIZE;
+                _isMaximized = true;
+            }
+            else
+            {
+                WindowState = FormWindowState.Normal;
+            }
+
+            SetMaximizeButton();
         }
 
-        protected void CloseForm()
+        protected virtual void SetMaximizeButton()
+        {
+            if (MaximizeButton == null || MaximizeWindowImage == null || RestoreWindowImage == null) return;
+            MaximizeButton.Image = WindowState == FormWindowState.Normal ? MaximizeWindowImage : RestoreWindowImage;
+        }
+
+        protected virtual void CloseForm()
         {
             Close();
         }
