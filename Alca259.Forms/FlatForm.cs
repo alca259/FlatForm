@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -126,7 +128,10 @@ namespace Alca259.Forms
 
         protected virtual void PostInitialize()
         {
-            if (DragControl != null) DragControl.MouseDown += DragControl_MouseDown;
+            if (DragControl != null)
+            {
+                DragControl.MouseDown += DragControl_MouseDown;
+            }
             if (MinimizeButton != null) MinimizeButton.Click += MinimizeButton_Click;
             if (MaximizeButton != null) MaximizeButton.Click += MaximizeButton_Click;
             if (CloseButton != null) CloseButton.Click += CloseButton_Click;
@@ -153,6 +158,12 @@ namespace Alca259.Forms
         #region Event Handlers
         private void DragControl_MouseDown(object sender, MouseEventArgs e)
         {
+            if (e.Clicks > 1)
+            {
+                Maximize();
+                return;
+            }
+
             ReleaseCapture();
             SendMessage(Handle, DRAG_MESSAGE, DRAG_MESSAGE_PARAM, 0);
         }
@@ -317,8 +328,10 @@ namespace Alca259.Forms
             {
                 MenuPanel.Width = MenuCollapsedWidth;
                 MenuToggleButton.Dock = DockStyle.Top;
-                foreach (Control control in MenuPanel.Controls)
+                foreach (Control control in MenuPanel.Controls.OfType<Button>().ToList())
                 {
+                    if (control == MenuToggleButton) continue;
+
                     if (control is Button t)
                     {
                         t.Text = string.Empty;
@@ -336,8 +349,10 @@ namespace Alca259.Forms
 
             MenuPanel.Width = MenuExpandedWidth;
             MenuToggleButton.Dock = DockStyle.None;
-            foreach (Control control in MenuPanel.Controls)
+            foreach (Control control in MenuPanel.Controls.OfType<Button>().ToList())
             {
+                if (control == MenuToggleButton) continue;
+
                 if (control is Button t)
                 {
                     t.Text = $"{string.Empty.PadLeft(5, ' ')} {t.Tag}";
@@ -346,7 +361,7 @@ namespace Alca259.Forms
                     continue;
                 }
 
-                control.Visible = false;
+                control.Visible = true;
             }
 
             IsMenuOpen = true;
