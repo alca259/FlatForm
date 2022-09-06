@@ -18,6 +18,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **/
+using Alca259.Forms.UserControls;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -136,12 +137,23 @@ namespace Alca259.Forms
 
         [Category(CAT_NAME)]
         public bool HideDefaultBorders { get; set; } = true;
+
+        [Category(CAT_NAME)]
+        public WindowBar TopWindowBar { get; set; }
+
+        [Category(CAT_NAME)]
+        public int TopWindowHeight { get; set; } = 26;
         #endregion
 
         #region Constructor
         public FlatForm()
         {
             InitializeComponent();
+
+            var wBar = TopWindowBar ?? new WindowBar();
+            wBar.Dock = DockStyle.Top;
+            wBar.Height = TopWindowHeight;
+            Controls.Add(wBar);
 
             Resize += FlatForm_Resize;
         }

@@ -11,8 +11,14 @@
     <Compile Update="UserControls\FlatTextBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="UserControls\NavigationMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="UserControls\SwitchCheckBox.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="UserControls\WindowBar.cs">
+      <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>
 </Project>

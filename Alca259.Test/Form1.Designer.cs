@@ -49,7 +49,6 @@
             // 
             this.btnMini.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMini.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(77)))), ((int)(((byte)(77)))), ((int)(((byte)(77)))));
-            this.btnMini.DarkColors = false;
             this.btnMini.FlatAppearance.BorderSize = 0;
             this.btnMini.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMini.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -65,7 +64,6 @@
             // 
             this.btnMaxi.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnMaxi.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(77)))), ((int)(((byte)(77)))), ((int)(((byte)(77)))));
-            this.btnMaxi.DarkColors = false;
             this.btnMaxi.FlatAppearance.BorderSize = 0;
             this.btnMaxi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnMaxi.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -81,7 +79,6 @@
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(77)))), ((int)(((byte)(77)))), ((int)(((byte)(77)))));
-            this.btnClose.DarkColors = false;
             this.btnClose.FlatAppearance.BorderSize = 0;
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -129,7 +126,6 @@
             this.flatButton3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(77)))), ((int)(((byte)(77)))), ((int)(((byte)(77)))));
             this.flatButton3.BackgroundImage = global::Alca259.Test.Properties.Resources.magic_wand_3d;
             this.flatButton3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.flatButton3.DarkColors = false;
             this.flatButton3.Dock = System.Windows.Forms.DockStyle.Top;
             this.flatButton3.FlatAppearance.BorderSize = 0;
             this.flatButton3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -147,7 +143,6 @@
             this.flatButton2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(77)))), ((int)(((byte)(77)))), ((int)(((byte)(77)))));
             this.flatButton2.BackgroundImage = global::Alca259.Test.Properties.Resources.low_battery_3d;
             this.flatButton2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.flatButton2.DarkColors = false;
             this.flatButton2.Dock = System.Windows.Forms.DockStyle.Top;
             this.flatButton2.FlatAppearance.BorderSize = 0;
             this.flatButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -165,7 +160,6 @@
             this.flatButton1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(77)))), ((int)(((byte)(77)))), ((int)(((byte)(77)))));
             this.flatButton1.BackgroundImage = global::Alca259.Test.Properties.Resources.keyboard_3d;
             this.flatButton1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.flatButton1.DarkColors = false;
             this.flatButton1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flatButton1.FlatAppearance.BorderSize = 0;
             this.flatButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -190,7 +184,6 @@
             // buttonMenu
             // 
             this.buttonMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(77)))), ((int)(((byte)(77)))), ((int)(((byte)(77)))));
-            this.buttonMenu.DarkColors = true;
             this.buttonMenu.Dock = System.Windows.Forms.DockStyle.Top;
             this.buttonMenu.FlatAppearance.BorderSize = 0;
             this.buttonMenu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;

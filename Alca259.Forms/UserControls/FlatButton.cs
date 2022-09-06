@@ -32,7 +32,9 @@ namespace Alca259.Forms.UserControls
 
         #region Exposed properties
         [Category(CAT_NAME)]
-        public bool DarkColors { get; set; } = true;
+        public Color? DarkBackColor { get; set; } = Color.FromArgb(77, 77, 77);
+        [Category(CAT_NAME)]
+        public Color? DarkForeColor { get; set; } = Color.FromArgb(220, 220, 220);
         #endregion
 
         #region Constructor
@@ -40,12 +42,8 @@ namespace Alca259.Forms.UserControls
         {
             FlatStyle = FlatStyle.Flat;
             FlatAppearance.BorderSize = 0;
-
-            if (DarkColors)
-            {
-                BackColor = Color.FromArgb(77, 77, 77);
-                ForeColor = Color.FromArgb(220, 220, 220);
-            }
+            BackColor = DarkBackColor ?? BackColor;
+            ForeColor = DarkForeColor ?? ForeColor;
         }
         #endregion
     }
