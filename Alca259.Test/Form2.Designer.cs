@@ -38,7 +38,7 @@ namespace Alca259.Test
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(206, 27);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(575, 412);
+            this.panel1.Size = new System.Drawing.Size(607, 490);
             this.panel1.TabIndex = 5;
             // 
             // Form2
@@ -46,9 +46,8 @@ namespace Alca259.Test
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderColor = System.Drawing.Color.Fuchsia;
-            this.ClientSize = new System.Drawing.Size(782, 440);
+            this.ClientSize = new System.Drawing.Size(814, 518);
             this.Controls.Add(this.panel1);
-            this.MenuImage = global::Alca259.Test.Properties.Resources.magic_wand_3d;
             this.Name = "Form2";
             this.Padding = new System.Windows.Forms.Padding(1);
             this.Text = "Form2";

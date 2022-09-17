@@ -4,7 +4,30 @@
 		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<UseWindowsForms>true</UseWindowsForms>
 		<RootNamespace>Alca259.Forms</RootNamespace>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<PackageId>Alca259.Winforms.Utils</PackageId>
+		<Title>Alca259.Winforms.Utils</Title>
+		<Authors>Alca259</Authors>
+		<Copyright>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License</Copyright>
+		<PackageProjectUrl>https://github.com/alca259/FlatForm</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/alca259/FlatForm</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>Winforms;Net core</PackageTags>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\README.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Include="..\LICENSE.md">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="FontAwesome.Sharp" Version="6.1.1" />
