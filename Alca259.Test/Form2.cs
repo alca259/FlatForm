@@ -6,6 +6,11 @@ namespace Alca259.Test
     {
         public Form2()
         {
+            MenuItems.Add(new ButtonData
+            {
+                Text = "Prueba",
+                Icon = FontAwesome.Sharp.IconChar.Exclamation
+            });
             InitializeComponent();
         }
     }

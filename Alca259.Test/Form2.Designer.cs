@@ -35,9 +35,11 @@ namespace Alca259.Test
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(848, 567);
+            this.ClientSize = new System.Drawing.Size(956, 485);
             this.Name = "Form2";
+            this.Padding = new System.Windows.Forms.Padding(1);
             this.Text = "Form2";
+            this.Title = "Aplicación yipi";
             this.ResumeLayout(false);
 
         }

@@ -18,7 +18,9 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **/
+using FontAwesome.Sharp;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
@@ -30,91 +32,96 @@ namespace Alca259.Forms.UserControls
     {
         #region Consts
         internal const string CAT_NAME = "Navigation Menu";
+        private const string ADJUST_TAG = "Adjust";
+        private const int COLLAPSED_WIDTH = 38;
         #endregion
 
         #region Protected properties
         protected bool IsMenuOpen { get; private set; } = true;
         #endregion
 
-        #region Exposed propertie
-        [Category(CAT_NAME)]
-        public Button MenuToggleButton { get; set; }
+        #region Exposed properties
+        [Category(CAT_NAME)] public List<ButtonData> Items { get; set; } = new List<ButtonData>();
+        [Category(CAT_NAME)] public bool StartMenuOpen { get; set; } = true;
+        [Category(CAT_NAME)] public int MenuExpandedWidth { get; set; } = 230;
+        #endregion
 
-        [Category(CAT_NAME)]
-        public bool StartMenuOpen { get; set; } = true;
-
-        [Category(CAT_NAME)]
-        public int MenuCollapsedWidth { get; set; } = 100;
-
-        [Category(CAT_NAME)]
-        public int MenuExpandedWidth { get; set; } = 230;
+        #region Private fields
+        private Dictionary<Guid, (IconButton, ButtonData)> _displayedElements = new Dictionary<Guid, (IconButton, ButtonData)>();
         #endregion
 
         #region Constructor
-
         public NavigationMenu()
         {
             InitializeComponent();
-            PostInitialize();
         }
 
-        protected virtual void PostInitialize()
+        public virtual void PostInitialize()
         {
-            if (MenuToggleButton != null) MenuToggleButton.Click += MenuToggleButton_Click;
+            LoadElements();
 
             if ((IsMenuOpen && !StartMenuOpen) || (!IsMenuOpen && StartMenuOpen))
             {
                 CollapseMenu();
             }
+
+            foreach (Control control in Controls)
+            {
+                if (!ADJUST_TAG.Equals(control.Tag?.ToString(), StringComparison.InvariantCultureIgnoreCase)) continue;
+                control.ForeColor = ForeColor;
+            }
+
+            toggleButton.BackColor = BackColor;
+            var lightColor = toggleButton.BackColor.AdjustLight(0.05f, removeAlpha: true);
+
+            toggleButton.FlatAppearance.MouseOverBackColor = lightColor;
+            toggleButton.FlatAppearance.MouseDownBackColor = lightColor;
         }
         #endregion
 
         #region Menu panel
+        protected virtual void LoadElements()
+        {
+            foreach (ButtonData item in Items)
+            {
+                var iconBtn = new IconButton
+                {
+                    Text = item.Text,
+                    IconChar = item.Icon,
+                    IconSize = item.IconSize,
+                    IconFont = item.IconFont,
+                    IconColor = item.IconColor,
+                    BackColor = item.BackgroundColor,
+                    ForeColor = item.ForegroudColor,
+                    Dock = DockStyle.Top,
+                    Height = 45,
+                    FlatStyle = FlatStyle.Flat,
+
+                };
+
+                var lightColor = item.BackgroundColor.AdjustLight(0.05f, removeAlpha: true);
+
+                iconBtn.FlatAppearance.BorderSize = 0;
+                iconBtn.FlatAppearance.MouseOverBackColor = lightColor;
+                iconBtn.FlatAppearance.MouseDownBackColor = lightColor;
+
+                _displayedElements.Add(item.Key, (iconBtn, item));
+                panelItems.Controls.Add(iconBtn);
+            }
+        }
+
         protected virtual void CollapseMenu()
         {
-            if (MenuToggleButton == null) return;
+            Width = IsMenuOpen ? COLLAPSED_WIDTH : MenuExpandedWidth;
+            labelFooter.Visible = !IsMenuOpen;
 
-            if (IsMenuOpen)
+            foreach (KeyValuePair<Guid, (IconButton btn, ButtonData data)> item in _displayedElements)
             {
-                Width = MenuCollapsedWidth;
-                MenuToggleButton.Dock = DockStyle.Top;
-                foreach (Control control in Controls.OfType<Button>().ToList())
-                {
-                    if (control == MenuToggleButton) continue;
-
-                    if (control is Button t)
-                    {
-                        t.Text = string.Empty;
-                        t.ImageAlign = ContentAlignment.MiddleCenter;
-                        t.Padding = new Padding(0);
-                        continue;
-                    }
-
-                    control.Visible = false;
-                }
-
-                IsMenuOpen = false;
-                return;
+                item.Value.btn.Text = IsMenuOpen ? string.Empty : item.Value.data.DisplayText;
+                item.Value.btn.Padding = IsMenuOpen ? new Padding(0) : new Padding(10, 0, 0, 0);
             }
 
-            Width = MenuExpandedWidth;
-            MenuToggleButton.Dock = DockStyle.None;
-            foreach (Control control in Controls.OfType<Button>().ToList())
-            {
-                if (control == MenuToggleButton) continue;
-
-                if (control is Button t)
-                {
-                    t.Text = $"{string.Empty.PadLeft(5, ' ')} {t.Tag}";
-                    t.ImageAlign = ContentAlignment.MiddleLeft;
-                    t.Padding = new Padding(10, 0, 0, 0);
-                    continue;
-                }
-
-                control.Visible = true;
-            }
-
-            IsMenuOpen = true;
+            IsMenuOpen = !IsMenuOpen;
         }
         #endregion
 

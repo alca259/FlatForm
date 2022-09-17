@@ -20,6 +20,7 @@
  **/
 using Alca259.Forms.UserControls;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -85,10 +86,10 @@ namespace Alca259.Forms
         #region Navigation menu options
         [Category(NavigationMenu.CAT_NAME)] public bool EnableNavigationMenu { get; set; } = true;
         [Category(NavigationMenu.CAT_NAME)] public bool StartMenuOpen { get; set; } = true;
-        [Category(NavigationMenu.CAT_NAME)] public int MenuCollapsedWidth { get; set; } = 100;
         [Category(NavigationMenu.CAT_NAME)] public int MenuExpandedWidth { get; set; } = 230;
         [Category(NavigationMenu.CAT_NAME)] public Color MenuBackgroundColor { get; set; } = Color.FromArgb(77, 77, 77);
         [Category(NavigationMenu.CAT_NAME)] public Color MenuForegroundColor { get; set; } = Color.Gainsboro;
+        [Category(NavigationMenu.CAT_NAME)] public List<ButtonData> MenuItems { get; set; } = new List<ButtonData>();
         #endregion
 
         #region Form options
@@ -130,23 +131,30 @@ namespace Alca259.Forms
         {
             PreInitializate();
             InitializeComponent();
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
             PostInitialize();
-            Resize += FlatForm_Resize;
         }
 
         protected virtual void PostInitialize()
         {
+            Resize += FlatForm_Resize;
+
             if (EnableNavigationMenu)
             {
                 _navigationMenu = new NavigationMenu
                 {
                     StartMenuOpen = StartMenuOpen,
-                    MenuCollapsedWidth = MenuCollapsedWidth,
                     MenuExpandedWidth = MenuExpandedWidth,
                     Dock = DockStyle.Left,
                     BackColor = MenuBackgroundColor,
                     ForeColor = MenuForegroundColor,
+                    Items = MenuItems
                 };
+                _navigationMenu.PostInitialize();
                 Controls.Add(_navigationMenu);
             }
 
