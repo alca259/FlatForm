@@ -29,8 +29,9 @@ namespace Alca259.Forms.UserControls
     public partial class WindowBar : UserControl
     {
         #region Consts
+        internal const string CAT_NAME = "Window bar";
+
         private const string WIN_LIB = "user32.dll";
-        private const string CAT_NAME = "Window bar";
         private const int RESIZE_AREA_SIZE = 10;
 
         private const int DRAG_MESSAGE = 0x112;
@@ -127,7 +128,7 @@ namespace Alca259.Forms.UserControls
             _referenceForm.Close();
         }
 
-        private void SetMaximizeButton()
+        public void SetMaximizeButton()
         {
             MaximizeButton.BackgroundImage = _referenceForm.WindowState == FormWindowState.Normal ? ControlResources.Maximize : ControlResources.Restore;
         }

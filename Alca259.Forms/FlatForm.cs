@@ -21,10 +21,7 @@
 using Alca259.Forms.UserControls;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace Alca259.Forms
@@ -32,10 +29,8 @@ namespace Alca259.Forms
     public partial class FlatForm : Form
     {
         #region Consts
-        private const string WIN_LIB = "user32.dll";
-        private const string CAT_NAME = "Flat Form";
-        private const int DRAG_MESSAGE = 0x112;
-        private const int DRAG_MESSAGE_PARAM = 0xf012;
+        internal const string CAT_NAME = "Flat Form";
+
         private const int RESIZE_MSG = 132;
         private const int WM_NC_CALC_SIZE = 0x0083;
         /// <summary>
@@ -81,46 +76,22 @@ namespace Alca259.Forms
         private int _borderSize = 1;
         private int _initialBorderSize = 1;
         private bool _isMaximized = false;
-        #endregion
-
-        #region Protected properties
-        protected bool IsMenuOpen { get; private set; } = true;
+        private WindowBar _topWindowBar;
+        private NavigationMenu _navigationMenu;
         #endregion
 
         #region Exposed properties
-        [Category(CAT_NAME)]
-        public Control DragControl { get; set; }
 
-        [Category(CAT_NAME)]
-        public Button MinimizeButton { get; set; }
+        #region Navigation menu options
+        [Category(NavigationMenu.CAT_NAME)] public bool EnableNavigationMenu { get; set; } = true;
+        [Category(NavigationMenu.CAT_NAME)] public bool StartMenuOpen { get; set; } = true;
+        [Category(NavigationMenu.CAT_NAME)] public int MenuCollapsedWidth { get; set; } = 100;
+        [Category(NavigationMenu.CAT_NAME)] public int MenuExpandedWidth { get; set; } = 230;
+        [Category(NavigationMenu.CAT_NAME)] public Color MenuBackgroundColor { get; set; } = Color.FromArgb(77, 77, 77);
+        [Category(NavigationMenu.CAT_NAME)] public Color MenuForegroundColor { get; set; } = Color.Gainsboro;
+        #endregion
 
-        [Category(CAT_NAME)]
-        public Button MaximizeButton { get; set; }
-
-        [Category(CAT_NAME)]
-        public Image MaximizeWindowImage { get; set; }
-
-        [Category(CAT_NAME)]
-        public Image RestoreWindowImage { get; set; }
-
-        [Category(CAT_NAME)]
-        public Button CloseButton { get; set; }
-
-        [Category(CAT_NAME)]
-        public Panel MenuPanel { get; set; }
-
-        [Category(CAT_NAME)]
-        public Button MenuToggleButton { get; set; }
-
-        [Category(CAT_NAME)]
-        public bool StartMenuOpen { get; set; } = true;
-
-        [Category(CAT_NAME)]
-        public int MenuCollapsedWidth { get; set; } = 100;
-
-        [Category(CAT_NAME)]
-        public int MenuExpandedWidth { get; set; } = 230;
-        
+        #region Form options
         [Category(CAT_NAME)]
         public int BorderSize
         {
@@ -132,75 +103,75 @@ namespace Alca259.Forms
             }
         }
 
-        [Category(CAT_NAME)]
-        public Color BorderColor { get; set; } = Color.FromArgb(31, 98, 169);
+        [Category(CAT_NAME)] public Color BorderColor { get; set; } = Color.FromArgb(31, 98, 169);
+        [Category(CAT_NAME)] public bool HideDefaultBorders { get; set; } = true;
+        #endregion
 
-        [Category(CAT_NAME)]
-        public bool HideDefaultBorders { get; set; } = true;
+        #region Control bar options
+        [Category(WindowBar.CAT_NAME)] public bool EnableControlBar { get; set; } = true;
+        [Category(WindowBar.CAT_NAME)] public int TopWindowHeight { get; set; } = 26;
+        [Category(WindowBar.CAT_NAME)] public Color TopBarBackgroundColor { get; set; } = Color.FromArgb(77, 77, 77);
+        [Category(WindowBar.CAT_NAME)] public Color TopBarForegroundColor { get; set; } = Color.Gainsboro;
+        [Category(WindowBar.CAT_NAME)] public string Title { get; set; }
+        [Category(WindowBar.CAT_NAME)] public bool EnableMinimizeButton { get; set; } = true;
+        [Category(WindowBar.CAT_NAME)] public bool EnableMaximizeButton { get; set; } = true;
+        [Category(WindowBar.CAT_NAME)] public bool EnableCloseButton { get; set; } = true;
+        #endregion
 
-        [Category(CAT_NAME)]
-        public WindowBar TopWindowBar { get; set; }
-
-        [Category(CAT_NAME)]
-        public int TopWindowHeight { get; set; } = 26;
         #endregion
 
         #region Constructor
+        protected virtual void PreInitializate()
+        {
+
+        }
+
         public FlatForm()
         {
+            PreInitializate();
             InitializeComponent();
-
-            var wBar = TopWindowBar ?? new WindowBar();
-            wBar.Dock = DockStyle.Top;
-            wBar.Height = TopWindowHeight;
-            Controls.Add(wBar);
-
+            PostInitialize();
             Resize += FlatForm_Resize;
         }
 
         protected virtual void PostInitialize()
         {
-            if (DragControl != null)
+            if (EnableNavigationMenu)
             {
-                DragControl.MouseDown += DragControl_MouseDown;
+                _navigationMenu = new NavigationMenu
+                {
+                    StartMenuOpen = StartMenuOpen,
+                    MenuCollapsedWidth = MenuCollapsedWidth,
+                    MenuExpandedWidth = MenuExpandedWidth,
+                    Dock = DockStyle.Left,
+                    BackColor = MenuBackgroundColor,
+                    ForeColor = MenuForegroundColor,
+                };
+                Controls.Add(_navigationMenu);
             }
-            if (MinimizeButton != null) MinimizeButton.Click += MinimizeButton_Click;
-            if (MaximizeButton != null) MaximizeButton.Click += MaximizeButton_Click;
-            if (CloseButton != null) CloseButton.Click += CloseButton_Click;
-            if (MenuPanel != null && MenuToggleButton != null) MenuToggleButton.Click += MenuToggleButton_Click;
+
+            if (EnableControlBar)
+            {
+                _topWindowBar = new WindowBar
+                {
+                    Dock = DockStyle.Top,
+                    Height = TopWindowHeight,
+                    BackColor = TopBarBackgroundColor,
+                    ForeColor = TopBarForegroundColor,
+                    Title = Title,
+                    EnableMinimizeButton = EnableMinimizeButton,
+                    EnableMaximizeButton = EnableMaximizeButton,
+                    EnableCloseButton = EnableCloseButton
+                };
+                _topWindowBar.BorderSizeChanged += TopWindowBar_BorderSizeChanged;
+                _topWindowBar.WindowMaximized += TopWindowBar_WindowMaximized;
+                Controls.Add(_topWindowBar);
+            }
 
             _initialBorderSize = _borderSize;
             Padding = new Padding(BorderSize);
             BackColor = BorderColor;
-
-            if ((IsMenuOpen && !StartMenuOpen) || (!IsMenuOpen && StartMenuOpen))
-            {
-                CollapseMenu();
-            }
         }
-        #endregion
-
-        #region Dll Import (Drag form)
-        [DllImport(WIN_LIB, EntryPoint = "ReleaseCapture")]
-        private extern static void ReleaseCapture();
-
-        [DllImport(WIN_LIB, EntryPoint = "SendMessage")]
-        private extern static void SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
-
-        #region Event Handlers
-        private void DragControl_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Clicks > 1)
-            {
-                Maximize();
-                return;
-            }
-
-            ReleaseCapture();
-            SendMessage(Handle, DRAG_MESSAGE, DRAG_MESSAGE_PARAM, 0);
-        }
-        #endregion
-
         #endregion
 
         #region Hide Borders, working area and snap
@@ -284,6 +255,7 @@ namespace Alca259.Forms
                 }
             }
         }
+        #endregion
 
         #region Event Handlers
         private void FlatForm_Resize(object sender, EventArgs e)
@@ -292,120 +264,18 @@ namespace Alca259.Forms
 
             _isMaximized = false;
             BorderSize = _initialBorderSize;
-            SetMaximizeButton();
+            _topWindowBar.SetMaximizeButton();
         }
-        #endregion
 
-        #endregion
-
-        #region Top bar buttons
-        protected virtual void Minimize()
+        private void TopWindowBar_WindowMaximized(object sender, bool e)
         {
-            WindowState = FormWindowState.Minimized;
+            _isMaximized = e;
         }
 
-        protected virtual void Maximize()
+        private void TopWindowBar_BorderSizeChanged(object sender, int e)
         {
-            if (WindowState == FormWindowState.Normal)
-            {
-                MaximumSize = Screen.FromHandle(Handle).WorkingArea.Size;
-                WindowState = FormWindowState.Maximized;
-                BorderSize = RESIZE_AREA_SIZE;
-                _isMaximized = true;
-            }
-            else
-            {
-                WindowState = FormWindowState.Normal;
-            }
-
-            SetMaximizeButton();
+            BorderSize = e;
         }
-
-        protected virtual void SetMaximizeButton()
-        {
-            if (MaximizeButton == null || MaximizeWindowImage == null || RestoreWindowImage == null) return;
-            MaximizeButton.Image = WindowState == FormWindowState.Normal ? MaximizeWindowImage : RestoreWindowImage;
-        }
-
-        protected virtual void CloseForm()
-        {
-            Close();
-        }
-
-        #region Event Handlers
-        private void MinimizeButton_Click(object sender, EventArgs e)
-        {
-            Minimize();
-        }
-
-        private void MaximizeButton_Click(object sender, EventArgs e)
-        {
-            Maximize();
-        }
-
-        private void CloseButton_Click(object sender, EventArgs e)
-        {
-            CloseForm();
-        }
-        #endregion
-
-        #endregion
-
-        #region Menu panel
-        protected virtual void CollapseMenu()
-        {
-            if (MenuPanel == null || MenuToggleButton == null) return;
-
-            if (IsMenuOpen)
-            {
-                MenuPanel.Width = MenuCollapsedWidth;
-                MenuToggleButton.Dock = DockStyle.Top;
-                foreach (Control control in MenuPanel.Controls.OfType<Button>().ToList())
-                {
-                    if (control == MenuToggleButton) continue;
-
-                    if (control is Button t)
-                    {
-                        t.Text = string.Empty;
-                        t.ImageAlign = ContentAlignment.MiddleCenter;
-                        t.Padding = new Padding(0);
-                        continue;
-                    }
-
-                    control.Visible = false;
-                }
-
-                IsMenuOpen = false;
-                return;
-            }
-
-            MenuPanel.Width = MenuExpandedWidth;
-            MenuToggleButton.Dock = DockStyle.None;
-            foreach (Control control in MenuPanel.Controls.OfType<Button>().ToList())
-            {
-                if (control == MenuToggleButton) continue;
-
-                if (control is Button t)
-                {
-                    t.Text = $"{string.Empty.PadLeft(5, ' ')} {t.Tag}";
-                    t.ImageAlign = ContentAlignment.MiddleLeft;
-                    t.Padding = new Padding(10, 0, 0, 0);
-                    continue;
-                }
-
-                control.Visible = true;
-            }
-
-            IsMenuOpen = true;
-        }
-
-        #region Event handlers
-        private void MenuToggleButton_Click(object sender, EventArgs e)
-        {
-            CollapseMenu();
-        }
-        #endregion
-
         #endregion
     }
 }

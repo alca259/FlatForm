@@ -29,7 +29,7 @@ namespace Alca259.Forms.UserControls
     public partial class FlatTextBox : UserControl
     {
         #region Consts
-        private const string CAT_NAME = "Flat TextBox";
+        internal const string CAT_NAME = "Flat TextBox";
         #endregion
 
         #region Fields

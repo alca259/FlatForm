@@ -28,7 +28,7 @@ namespace Alca259.Forms.UserControls
     public class SwitchCheckBox : CheckBox
     {
         #region Consts
-        private const string CAT_NAME = "Switch CheckBox";
+        internal const string CAT_NAME = "Switch CheckBox";
         #endregion
 
         #region Fields

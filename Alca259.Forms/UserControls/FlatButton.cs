@@ -27,7 +27,7 @@ namespace Alca259.Forms.UserControls
     public class FlatButton : Button
     {
         #region Consts
-        private const string CAT_NAME = "Flat Button";
+        internal const string CAT_NAME = "Flat Button";
         #endregion
 
         #region Exposed properties
