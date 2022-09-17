@@ -44,6 +44,8 @@ namespace Alca259.Forms.UserControls
         [Category(CAT_NAME)] public List<ButtonData> Items { get; set; } = new List<ButtonData>();
         [Category(CAT_NAME)] public bool StartMenuOpen { get; set; } = true;
         [Category(CAT_NAME)] public int MenuExpandedWidth { get; set; } = 230;
+        [Category(CAT_NAME)] public string FooterText { get; set; } = $"© Copyright Alca259 - {DateTime.Today.Year}";
+        [Category(CAT_NAME)] public Image MenuImage { get; set; }
         #endregion
 
         #region Private fields
@@ -71,11 +73,13 @@ namespace Alca259.Forms.UserControls
                 control.ForeColor = ForeColor;
             }
 
-            toggleButton.BackColor = BackColor;
-            var lightColor = toggleButton.BackColor.AdjustLight(0.05f, removeAlpha: true);
+            labelFooter.Text = FooterText;
 
-            toggleButton.FlatAppearance.MouseOverBackColor = lightColor;
-            toggleButton.FlatAppearance.MouseDownBackColor = lightColor;
+            toggleButton.BackColor = BackColor;
+            toggleButton.FlatAppearance.MouseOverBackColor = toggleButton.BackColor.AdjustLight(0.05f, removeAlpha: true);
+            toggleButton.FlatAppearance.MouseDownBackColor = toggleButton.BackColor.AdjustLight(0.10f, removeAlpha: true);
+
+            pictureBox1.Image = MenuImage;
         }
         #endregion
 
@@ -86,7 +90,7 @@ namespace Alca259.Forms.UserControls
             {
                 var iconBtn = new IconButton
                 {
-                    Text = item.Text,
+                    Text = item.DisplayText,
                     IconChar = item.Icon,
                     IconSize = item.IconSize,
                     IconFont = item.IconFont,
@@ -94,16 +98,15 @@ namespace Alca259.Forms.UserControls
                     BackColor = item.BackgroundColor,
                     ForeColor = item.ForegroudColor,
                     Dock = DockStyle.Top,
-                    Height = 45,
+                    Height = 35,
                     FlatStyle = FlatStyle.Flat,
-
+                    ImageAlign = ContentAlignment.MiddleLeft,
+                    TextAlign = ContentAlignment.MiddleLeft,
                 };
 
-                var lightColor = item.BackgroundColor.AdjustLight(0.05f, removeAlpha: true);
-
                 iconBtn.FlatAppearance.BorderSize = 0;
-                iconBtn.FlatAppearance.MouseOverBackColor = lightColor;
-                iconBtn.FlatAppearance.MouseDownBackColor = lightColor;
+                iconBtn.FlatAppearance.MouseOverBackColor = item.BackgroundColor.AdjustLight(0.05f, removeAlpha: true);
+                iconBtn.FlatAppearance.MouseDownBackColor = item.BackgroundColor.AdjustLight(0.10f, removeAlpha: true);
 
                 _displayedElements.Add(item.Key, (iconBtn, item));
                 panelItems.Controls.Add(iconBtn);
@@ -114,6 +117,7 @@ namespace Alca259.Forms.UserControls
         {
             Width = IsMenuOpen ? COLLAPSED_WIDTH : MenuExpandedWidth;
             labelFooter.Visible = !IsMenuOpen;
+            toggleButton.Flip = !IsMenuOpen ? FlipOrientation.Normal : FlipOrientation.Horizontal;
 
             foreach (KeyValuePair<Guid, (IconButton btn, ButtonData data)> item in _displayedElements)
             {

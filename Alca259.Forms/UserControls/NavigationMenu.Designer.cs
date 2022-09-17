@@ -65,11 +65,11 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(166, 41);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -89,14 +89,12 @@
             this.toggleButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.toggleButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.toggleButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.toggleButton.Flip = FontAwesome.Sharp.FlipOrientation.Horizontal;
             this.toggleButton.IconChar = FontAwesome.Sharp.IconChar.ToggleOff;
             this.toggleButton.IconColor = System.Drawing.Color.DimGray;
             this.toggleButton.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.toggleButton.IconSize = 24;
             this.toggleButton.Location = new System.Drawing.Point(6, 7);
             this.toggleButton.Name = "toggleButton";
-            this.toggleButton.Rotation = 90D;
             this.toggleButton.Size = new System.Drawing.Size(28, 28);
             this.toggleButton.TabIndex = 0;
             this.toggleButton.Tag = "Adjust";

@@ -9,7 +9,10 @@ namespace Alca259.Test
             MenuItems.Add(new ButtonData
             {
                 Text = "Prueba",
-                Icon = FontAwesome.Sharp.IconChar.Exclamation
+                Icon = FontAwesome.Sharp.IconChar.Exclamation,
+                IconSize = 24,
+                IconColor = System.Drawing.Color.Red,
+                IconFont = FontAwesome.Sharp.IconFont.Auto,
             });
             InitializeComponent();
         }

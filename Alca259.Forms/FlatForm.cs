@@ -89,7 +89,8 @@ namespace Alca259.Forms
         [Category(NavigationMenu.CAT_NAME)] public int MenuExpandedWidth { get; set; } = 230;
         [Category(NavigationMenu.CAT_NAME)] public Color MenuBackgroundColor { get; set; } = Color.FromArgb(77, 77, 77);
         [Category(NavigationMenu.CAT_NAME)] public Color MenuForegroundColor { get; set; } = Color.Gainsboro;
-        [Category(NavigationMenu.CAT_NAME)] public List<ButtonData> MenuItems { get; set; } = new List<ButtonData>();
+        [Category(NavigationMenu.CAT_NAME)] public Image MenuImage { get; set; }
+        [Category(NavigationMenu.CAT_NAME)] public string MenuFooterText { get; set; } = $"© Copyright Alca259 - {DateTime.Today.Year}";
         #endregion
 
         #region Form options
@@ -109,22 +110,22 @@ namespace Alca259.Forms
         #endregion
 
         #region Control bar options
-        [Category(WindowBar.CAT_NAME)] public bool EnableControlBar { get; set; } = true;
         [Category(WindowBar.CAT_NAME)] public int TopWindowHeight { get; set; } = 26;
         [Category(WindowBar.CAT_NAME)] public Color TopBarBackgroundColor { get; set; } = Color.FromArgb(77, 77, 77);
         [Category(WindowBar.CAT_NAME)] public Color TopBarForegroundColor { get; set; } = Color.Gainsboro;
         [Category(WindowBar.CAT_NAME)] public string Title { get; set; }
-        [Category(WindowBar.CAT_NAME)] public bool EnableMinimizeButton { get; set; } = true;
-        [Category(WindowBar.CAT_NAME)] public bool EnableMaximizeButton { get; set; } = true;
-        [Category(WindowBar.CAT_NAME)] public bool EnableCloseButton { get; set; } = true;
         #endregion
 
+        #endregion
+
+        #region Shared properties
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public List<ButtonData> MenuItems { get; set; } = new List<ButtonData>();
         #endregion
 
         #region Constructor
         protected virtual void PreInitializate()
         {
-
         }
 
         public FlatForm()
@@ -152,13 +153,15 @@ namespace Alca259.Forms
                     Dock = DockStyle.Left,
                     BackColor = MenuBackgroundColor,
                     ForeColor = MenuForegroundColor,
-                    Items = MenuItems
+                    Items = MenuItems,
+                    FooterText = MenuFooterText,
+                    MenuImage = MenuImage
                 };
                 _navigationMenu.PostInitialize();
                 Controls.Add(_navigationMenu);
             }
 
-            if (EnableControlBar)
+            if (MaximizeBox || MinimizeBox || ControlBox)
             {
                 _topWindowBar = new WindowBar
                 {
@@ -167,10 +170,11 @@ namespace Alca259.Forms
                     BackColor = TopBarBackgroundColor,
                     ForeColor = TopBarForegroundColor,
                     Title = Title,
-                    EnableMinimizeButton = EnableMinimizeButton,
-                    EnableMaximizeButton = EnableMaximizeButton,
-                    EnableCloseButton = EnableCloseButton
+                    EnableMinimizeButton = MinimizeBox,
+                    EnableMaximizeButton = MaximizeBox,
+                    EnableCloseButton = ControlBox
                 };
+                _topWindowBar.PostInitialize();
                 _topWindowBar.BorderSizeChanged += TopWindowBar_BorderSizeChanged;
                 _topWindowBar.WindowMaximized += TopWindowBar_WindowMaximized;
                 Controls.Add(_topWindowBar);

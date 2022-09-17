@@ -7,9 +7,9 @@ namespace Alca259.Forms
     [Serializable]
     public class ButtonData
     {
-        private string Spaces => string.Empty.PadLeft(5, ' ');
+        private string Spaces => string.Empty.PadLeft(10, ' ');
         public string DisplayText => $"{Spaces} {Text}";
-        public Guid Key { get; set; } = Guid.NewGuid();
+        public Guid Key { get; } = Guid.NewGuid();
         public string Text { get; set; }
         public IconChar Icon { get; set; }
         public Color IconColor { get; set; }

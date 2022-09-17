@@ -69,8 +69,10 @@ namespace Alca259.Forms.UserControls
         public WindowBar()
         {
             InitializeComponent();
+        }
 
-
+        public virtual void PostInitialize()
+        {
             TitleLabel.Text = Title;
             PanelMinimize.Visible = EnableMinimizeButton;
             PanelMaximize.Visible = EnableMaximizeButton;

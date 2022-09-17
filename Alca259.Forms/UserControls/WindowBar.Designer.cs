@@ -111,7 +111,7 @@ namespace Alca259.Forms.UserControls
             this.PanelRightButtons.Dock = System.Windows.Forms.DockStyle.Right;
             this.PanelRightButtons.Location = new System.Drawing.Point(374, 0);
             this.PanelRightButtons.Name = "PanelRightButtons";
-            this.PanelRightButtons.Size = new System.Drawing.Size(79, 51);
+            this.PanelRightButtons.Size = new System.Drawing.Size(79, 26);
             this.PanelRightButtons.TabIndex = 3;
             // 
             // PanelMinimize
@@ -120,7 +120,7 @@ namespace Alca259.Forms.UserControls
             this.PanelMinimize.Dock = System.Windows.Forms.DockStyle.Right;
             this.PanelMinimize.Location = new System.Drawing.Point(1, 0);
             this.PanelMinimize.Name = "PanelMinimize";
-            this.PanelMinimize.Size = new System.Drawing.Size(26, 51);
+            this.PanelMinimize.Size = new System.Drawing.Size(26, 26);
             this.PanelMinimize.TabIndex = 5;
             // 
             // PanelMaximize
@@ -129,7 +129,7 @@ namespace Alca259.Forms.UserControls
             this.PanelMaximize.Dock = System.Windows.Forms.DockStyle.Right;
             this.PanelMaximize.Location = new System.Drawing.Point(27, 0);
             this.PanelMaximize.Name = "PanelMaximize";
-            this.PanelMaximize.Size = new System.Drawing.Size(26, 51);
+            this.PanelMaximize.Size = new System.Drawing.Size(26, 26);
             this.PanelMaximize.TabIndex = 4;
             // 
             // PanelClose
@@ -138,7 +138,7 @@ namespace Alca259.Forms.UserControls
             this.PanelClose.Dock = System.Windows.Forms.DockStyle.Right;
             this.PanelClose.Location = new System.Drawing.Point(53, 0);
             this.PanelClose.Name = "PanelClose";
-            this.PanelClose.Size = new System.Drawing.Size(26, 51);
+            this.PanelClose.Size = new System.Drawing.Size(26, 26);
             this.PanelClose.TabIndex = 3;
             // 
             // PanelTitle
@@ -147,17 +147,17 @@ namespace Alca259.Forms.UserControls
             this.PanelTitle.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PanelTitle.Location = new System.Drawing.Point(0, 0);
             this.PanelTitle.Name = "PanelTitle";
-            this.PanelTitle.Padding = new System.Windows.Forms.Padding(2);
-            this.PanelTitle.Size = new System.Drawing.Size(374, 51);
+            this.PanelTitle.Padding = new System.Windows.Forms.Padding(10, 2, 2, 2);
+            this.PanelTitle.Size = new System.Drawing.Size(374, 26);
             this.PanelTitle.TabIndex = 4;
             // 
             // TitleLabel
             // 
             this.TitleLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TitleLabel.ForeColor = System.Drawing.Color.Gainsboro;
-            this.TitleLabel.Location = new System.Drawing.Point(2, 2);
+            this.TitleLabel.Location = new System.Drawing.Point(10, 2);
             this.TitleLabel.Name = "TitleLabel";
-            this.TitleLabel.Size = new System.Drawing.Size(370, 47);
+            this.TitleLabel.Size = new System.Drawing.Size(362, 22);
             this.TitleLabel.TabIndex = 0;
             this.TitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
