@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <Compile Update="FlatForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FlatModalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UserControls\ExtendedTreeView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\FlatTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\SwitchCheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="UserControls\ThemeButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="UserControls\ThemeGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="UserControls\ThemeGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="UserControls\ThemeHorizontalSeparator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\ThemeLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="UserControls\ThemePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="UserControls\TranslationItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\TranslationItemElement.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UserControls\WindowBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>

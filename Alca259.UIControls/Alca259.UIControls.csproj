@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="FontAwesome.Sharp" Version="6.1.1" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Compile Update="FlatModalForm.cs" />
+	  <Compile Update="Resources\ControlResources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>ControlResources.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="UserControls\ThemeButton.cs" />
+	  <Compile Update="UserControls\ThemeLabel.cs" />
+	  <Compile Update="UserControls\TranslationItemElement.cs" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <EmbeddedResource Update="Resources\ControlResources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>ControlResources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+</Project>
