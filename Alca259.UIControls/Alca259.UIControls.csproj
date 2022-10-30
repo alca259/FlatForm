@@ -1,8 +1,48 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<UseWindowsForms>true</UseWindowsForms>
+		<RootNamespace>Alca259.UIControls</RootNamespace>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<PackageId>Alca259.Winforms.Utils</PackageId>
+		<Title>Alca259.Winforms.Utils</Title>
+		<Authors>Alca259</Authors>
+		<Copyright>Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International Public License</Copyright>
+		<PackageProjectUrl>https://github.com/alca259/FlatForm</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/alca259/FlatForm</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>Winforms;Net core</PackageTags>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<PackageIcon>AppIcon.png</PackageIcon>
+		<PackageReleaseNotes>Added some useful UI controls. ExtendedTreeView, ThemeGridView, ThemeGroupBox, ThemeHorizontalSeparator, TranslationItem, TranslationItemElement</PackageReleaseNotes>
+		<Version>1.1.0</Version>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Resources\AppIcon.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Resources\AppIcon.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\LICENSE.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 	
 	<ItemGroup>
 		<PackageReference Include="FontAwesome.Sharp" Version="6.1.1" />
