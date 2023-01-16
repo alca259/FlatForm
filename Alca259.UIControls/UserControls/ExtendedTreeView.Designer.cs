@@ -92,9 +92,9 @@ namespace Alca259.UIControls.UserControls
             this.themeLabel1.ForeColor = System.Drawing.Color.Gainsboro;
             this.themeLabel1.Location = new System.Drawing.Point(11, 9);
             this.themeLabel1.Name = "themeLabel1";
-            this.themeLabel1.Size = new System.Drawing.Size(83, 15);
+            this.themeLabel1.Size = new System.Drawing.Size(106, 15);
             this.themeLabel1.TabIndex = 0;
-            this.themeLabel1.Text = "Translation IDs";
+            this.themeLabel1.Text = "Extended tree view";
             // 
             // ExtendedTreeView
             // 

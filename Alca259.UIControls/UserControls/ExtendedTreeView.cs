@@ -1,5 +1,6 @@
 ﻿using Alca259.UIControls.DTOs;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace Alca259.UIControls.UserControls
@@ -11,11 +12,20 @@ namespace Alca259.UIControls.UserControls
         #endregion
 
         #region Fields
-
+        private string headerText = "Title";
         #endregion
 
         #region Properties
-
+        [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), Category(CAT_NAME)]
+        public string HeaderText
+        {
+            get => headerText;
+            set
+            {
+                headerText = value;
+                themeLabel1.Text = value;
+            }
+        }
         #endregion
 
         #region Constructor

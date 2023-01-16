@@ -1,4 +1,9 @@
-﻿namespace Alca259.UIControls.UserControls
+﻿using System;
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace Alca259.UIControls.UserControls
 {
     public partial class Slider : UserControl
     {
